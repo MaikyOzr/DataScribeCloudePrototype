@@ -121,11 +121,9 @@ namespace DataScribeCloudePrototype.Server.Migrations
 
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");

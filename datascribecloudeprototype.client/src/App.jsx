@@ -1,49 +1,54 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import React, { useState, useEffect } from 'react';
 
 function App() {
-    const [forecasts, setForecasts] = useState();
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        populateWeatherData();
+        fetchData();
     }, []);
 
-    const contents = forecasts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tabelLabel">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>;
+    const fetchData = async () => {
+        try {
+            const response = await fetch('https://localhost:7029/api/Home/');
+            const responseClone = response.clone();
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch data');
+            }
+
+            const jsonData = await response.json();
+            setData(jsonData);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+
+            // Log the response body text if JSON parsing failed
+            responseClone.text()
+                .then(bodyText => {
+                    console.log('Received the following instead of valid JSON:', bodyText);
+                });
+
+            setLoading(false);
+        }
+    };
 
     return (
         <div>
-            <h1 id="tabelLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            {contents}
+            <h1>Data from Server</h1>
+            {loading ? (
+                <p>Loading...</p>
+            ) : (
+                <ul>
+                    {data.map(item => (
+                        <li key={item.id}>
+                            {item.id} - {item.email}
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
     );
-    
-    async function populateWeatherData() {
-        const response = await fetch('weatherforecast');
-        const data = await response.json();
-        setForecasts(data);
-    }
 }
 
 export default App;

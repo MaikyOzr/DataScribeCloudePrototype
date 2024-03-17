@@ -85,8 +85,7 @@ namespace DataScribeCloudePrototype.Server.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },

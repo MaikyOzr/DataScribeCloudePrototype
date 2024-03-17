@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataScribeCloudePrototype.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240314192026_MigrationDb")]
+    [Migration("20240317090936_MigrationDb")]
     partial class MigrationDb
     {
         /// <inheritdoc />
@@ -124,11 +124,9 @@ namespace DataScribeCloudePrototype.Server.Migrations
 
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");

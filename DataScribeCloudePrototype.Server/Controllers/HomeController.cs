@@ -19,7 +19,7 @@ namespace DataScribeCloudePrototype.Server.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet("{id}")]
+        
         [HttpGet]
         public ActionResult<IEnumerable<User>> GetUsers()
         {

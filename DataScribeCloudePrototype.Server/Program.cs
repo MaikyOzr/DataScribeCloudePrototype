@@ -21,10 +21,20 @@ namespace DataScribeCloudePrototype.Server
                 opt => opt.UseSqlServer
                 (builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("https://localhost:5173")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
             builder.Services.AddScoped<UserManager>();
             builder.Services.AddScoped<FileStorageManager>();
             var app = builder.Build();
 
+            app.UseCors();
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
