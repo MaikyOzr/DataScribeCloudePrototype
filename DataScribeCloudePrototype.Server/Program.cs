@@ -1,7 +1,9 @@
 
 using DataScribeCloudePrototype.Server.Data;
 using DataScribeCloudePrototype.Server.Service;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace DataScribeCloudePrototype.Server
 {
@@ -30,6 +32,8 @@ namespace DataScribeCloudePrototype.Server
                            .AllowAnyMethod();
                 });
             });
+
+           
             builder.Services.AddScoped<UserManager>();
             builder.Services.AddScoped<FileStorageManager>();
             var app = builder.Build();

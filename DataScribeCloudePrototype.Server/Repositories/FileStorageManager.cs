@@ -17,58 +17,58 @@ namespace DataScribeCloudePrototype.Server.Service
 
         }
 
-        public Task<IActionResult> DeleteAudioFiles(IFormFile file)
+        public void AddAudioFiles(IFormFile file)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IActionResult> DeleteDocFile(IFormFile file)
+        public void AddDocFiles(IFormFile file)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IActionResult> DeleteImageFiles(IFormFile file)
+        public void AddImageFiles(IFormFile file)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IActionResult> DeleteNotes(Notes notes)
+        public async Task AddNotes(Notes notes)
+        {
+            await _context.Notes.AddAsync(notes);
+            await _context.SaveChangesAsync();
+        }
+
+        public void AddPDFFiles(IFormFile file)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IActionResult> DeletePDFFiles(IFormFile file)
+        public void DeleteAudioFiles(IFormFile file)
         {
             throw new NotImplementedException();
         }
 
-        public IActionResult GetFile(IFormFile file)
+        public void DeleteDocFile(IFormFile file)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IActionResult> SaveAudioFiles(IFormFile file)
+        public void DeleteImageFiles(IFormFile file)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IActionResult> SaveDocFiles(IFormFile file)
+        public void DeleteNotes(Notes notes)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IActionResult> SaveImageFiles(IFormFile file)
+        public void DeletePDFFiles(IFormFile file)
         {
             throw new NotImplementedException();
         }
 
-        public void SaveNotes(Notes notes)
-        {
-            _context.Notes.Add(notes);
-            _context.SaveChangesAsync();
-        }
-
-        public Task<IActionResult> SavePDFFiles(IFormFile file)
+        public void GetFile(IFormFile file)
         {
             throw new NotImplementedException();
         }

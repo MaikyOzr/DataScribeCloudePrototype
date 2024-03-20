@@ -3,7 +3,6 @@ using DataScribeCloudePrototype.Server.Models;
 using DataScribeCloudePrototype.Server.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace DataScribeCloudePrototype.Server.Controllers
 {
@@ -19,22 +18,24 @@ namespace DataScribeCloudePrototype.Server.Controllers
             _context = context;
         }
 
-        [HttpGet("{id}")]
         [HttpGet]
-        public ActionResult<IEnumerable<Notes>> GetNotes()
+        public async Task<List<Notes>> GetNotes()
         {
-            var notes = _context.Notes.ToList();
-            return Ok(notes);
+            return await _context.Notes
+                .AsNoTracking()
+                .ToListAsync();
         }
 
 
-        [HttpPost("save")]
-        public IActionResult SaveNotes([FromBody] Notes notes) {
-            if (notes != null)
-            {
-                manager.SaveNotes(notes);
-            }
-            return Ok(notes);
+        [HttpPost]
+        public async Task AddNotes(string title, string content) {
+    
+            var notes = new Notes {
+                Title = title, 
+                Content = content,
+            };
+        
+            await manager.AddNotes(notes);
         }
     }
 }

@@ -10,8 +10,8 @@ function App() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch('https://localhost:7029/api/Home/');
-            const responseClone = response.clone();
+            const response = await fetch('https://localhost:7029/api/Files/');//для перевірки користувача встав /Registration/
+            //const responseClone = response.clone();
 
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
@@ -35,14 +35,14 @@ function App() {
 
     return (
         <div>
-            <h1>Data from Server</h1>
+            <h1>This is DATASCRIBE BABY )</h1>
             {loading ? (
                 <p>Loading...</p>
             ) : (
                 <ul>
                     {data.map(item => (
                         <li key={item.id}>
-                            {item.id} - {item.email}
+                            {item.title} = {item.content}
                         </li>
                     ))}
                 </ul>

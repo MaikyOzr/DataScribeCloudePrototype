@@ -5,11 +5,10 @@ namespace DataScribeCloudePrototype.Server.Models
 {
     public class Image
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ImageId { get; set; }
-        public string? UrlImage { get; set; }
-        [ForeignKey("User")]
-        public string? CurrUserID { get; set; }
+        [Key]
+        public Guid ImageId { get; set; }
+        public string UrlImage { get; set; } = string.Empty;
+        public User? UserID { get; set; }
         public IEnumerator<Image> GetEnumerator()
         {
             yield return this;

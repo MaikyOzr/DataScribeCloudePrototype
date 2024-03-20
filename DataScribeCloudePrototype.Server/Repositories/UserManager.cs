@@ -13,10 +13,14 @@ namespace DataScribeCloudePrototype.Server.Service
             _context = context;
         }
 
-        public void AddUser(User user)
+        public bool IsEmailRegisted(User user) {
+            return _context.Set<User>().Any(a => a.Email == user.Email);
+        }
+
+        public async Task AddUser(User user)
         {   
-            _context.Add(user);
-            _context.SaveChanges();
+            await _context.AddAsync(user);
+            await _context.SaveChangesAsync();
         }
     }
 }

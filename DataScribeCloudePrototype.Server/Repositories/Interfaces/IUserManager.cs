@@ -4,6 +4,6 @@ namespace DataScribeCloudePrototype.Server.Service.Interfaces
 {
     public interface IUserManager
     {
-        void AddUser(User user);
+        Task AddUser(User user);
     }
 }

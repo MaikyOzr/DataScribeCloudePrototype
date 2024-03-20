@@ -5,12 +5,11 @@ namespace DataScribeCloudePrototype.Server.Models
 {
     public class Notes
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int NotesId { get; set; }
-        public string? Title { get; set; }
-        public string? Content { get; set; }
+        [Key]
+        public Guid NotesId { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
 
-        [ForeignKey("User")]
-        public string? CurrUserID { get; set; }
+        public User? UserID { get; set; }
     }
 }
