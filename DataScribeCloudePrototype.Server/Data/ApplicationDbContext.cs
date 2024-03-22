@@ -17,7 +17,7 @@ public class ApplicationDbContext: DbContext
     }
 
     public DbSet<User> Users { get; set; }
-    public DbSet<Image> Images { get; set; }
+    public DbSet<Images> Images { get; set; }
     public DbSet<Notes> Notes { get; set; }
     public DbSet<Audio> Audio { get; set; }
     public DbSet<DocFiles> DocFiles { get; set; }

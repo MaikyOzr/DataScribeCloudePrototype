@@ -1,20 +1,19 @@
-﻿using DataScribeCloudePrototype.Server.Models;
-using Microsoft.AspNetCore.Mvc;
-
+﻿
 namespace DataScribeCloudePrototype.Server.Service.Interfaces
 {
     public interface IFileStorage
     {
+        Task UpdateNotes(int id, string title, string content);
         void AddAudioFiles(IFormFile file);
         void AddDocFiles(IFormFile file);
-        void AddImageFiles(IFormFile file);
+        Task<int> AddImageFiles(IFormFile file);
         void AddPDFFiles(IFormFile file);
-        Task AddNotes(Notes notes);
-        void DeleteNotes(Notes notes);
+        Task<int> AddNotes(string title, string content);
+        Task DeleteNotes(int id);
         void GetFile(IFormFile file);
         void DeleteDocFile(IFormFile file);
         void DeleteAudioFiles(IFormFile file);
-        void DeleteImageFiles(IFormFile file);
+        Task DeleteImageFiles(int id);
         void DeletePDFFiles(IFormFile file);
     }
 }

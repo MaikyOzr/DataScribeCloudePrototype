@@ -10,7 +10,7 @@ function App() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch('https://localhost:7029/api/Files/');//для перевірки користувача встав /Registration/
+            const response = await fetch('https://localhost:7029/api/Notes/GetNotes');//для перевірки користувача встав /Registration/
             //const responseClone = response.clone();
 
             if (!response.ok) {

@@ -6,7 +6,7 @@ namespace DataScribeCloudePrototype.Server.Models
     public class Notes
     {
         [Key]
-        public Guid NotesId { get; set; }
+        public int NotesId { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
 

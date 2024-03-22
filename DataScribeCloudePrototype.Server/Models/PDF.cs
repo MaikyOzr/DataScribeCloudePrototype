@@ -6,7 +6,7 @@ namespace DataScribeCloudePrototype.Server.Models
     public class Pdf
     {
         [Key]
-        public Guid PDFId { get; set; }
+        public int PDFId { get; set; }
         public string PDFUrl { get; set; } = string.Empty;
         public User? CurrUserID { get; set; }
         public IEnumerator<Pdf> GetEnumerator()

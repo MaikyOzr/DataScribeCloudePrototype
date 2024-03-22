@@ -6,7 +6,7 @@ namespace DataScribeCloudePrototype.Server.Models
     public class Audio
     {
         [Key]
-        public Guid AudioId { get; set; }
+        public int AudioId { get; set; }
         public string UrlAidio { get; set; } = string.Empty;
         public User? UserID { get; set; }
         public IEnumerator<Audio> GetEnumerator()

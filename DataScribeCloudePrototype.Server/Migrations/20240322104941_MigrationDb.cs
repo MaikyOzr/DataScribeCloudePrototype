@@ -12,6 +12,20 @@ namespace DataScribeCloudePrototype.Server.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    ImageId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UrlImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserID = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.ImageId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -28,7 +42,8 @@ namespace DataScribeCloudePrototype.Server.Migrations
                 name: "Audio",
                 columns: table => new
                 {
-                    AudioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AudioId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UrlAidio = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserIDId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
@@ -46,7 +61,8 @@ namespace DataScribeCloudePrototype.Server.Migrations
                 name: "DocFiles",
                 columns: table => new
                 {
-                    DocId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DocId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     DocUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserIDId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
@@ -61,28 +77,11 @@ namespace DataScribeCloudePrototype.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Images",
-                columns: table => new
-                {
-                    ImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UrlImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserIDId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Images", x => x.ImageId);
-                    table.ForeignKey(
-                        name: "FK_Images_Users_UserIDId",
-                        column: x => x.UserIDId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Notes",
                 columns: table => new
                 {
-                    NotesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NotesId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserIDId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
@@ -101,7 +100,8 @@ namespace DataScribeCloudePrototype.Server.Migrations
                 name: "Pdf",
                 columns: table => new
                 {
-                    PDFId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PDFId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     PDFUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CurrUserIDId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
@@ -123,11 +123,6 @@ namespace DataScribeCloudePrototype.Server.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_DocFiles_UserIDId",
                 table: "DocFiles",
-                column: "UserIDId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Images_UserIDId",
-                table: "Images",
                 column: "UserIDId");
 
             migrationBuilder.CreateIndex(

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataScribeCloudePrototype.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240320123942_MigrationDb")]
+    [Migration("20240322104941_MigrationDb")]
     partial class MigrationDb
     {
         /// <inheritdoc />
@@ -27,9 +27,11 @@ namespace DataScribeCloudePrototype.Server.Migrations
 
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.Audio", b =>
                 {
-                    b.Property<Guid>("AudioId")
+                    b.Property<int>("AudioId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AudioId"));
 
                     b.Property<string>("UrlAidio")
                         .IsRequired()
@@ -47,9 +49,11 @@ namespace DataScribeCloudePrototype.Server.Migrations
 
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.DocFiles", b =>
                 {
-                    b.Property<Guid>("DocId")
+                    b.Property<int>("DocId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocId"));
 
                     b.Property<string>("DocUrl")
                         .IsRequired()
@@ -65,31 +69,32 @@ namespace DataScribeCloudePrototype.Server.Migrations
                     b.ToTable("DocFiles");
                 });
 
-            modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.Image", b =>
+            modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.Images", b =>
                 {
-                    b.Property<Guid>("ImageId")
+                    b.Property<int>("ImageId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"));
 
                     b.Property<string>("UrlImage")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("UserIDId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ImageId");
-
-                    b.HasIndex("UserIDId");
 
                     b.ToTable("Images");
                 });
 
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.Notes", b =>
                 {
-                    b.Property<Guid>("NotesId")
+                    b.Property<int>("NotesId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotesId"));
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -111,9 +116,11 @@ namespace DataScribeCloudePrototype.Server.Migrations
 
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.Pdf", b =>
                 {
-                    b.Property<Guid>("PDFId")
+                    b.Property<int>("PDFId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PDFId"));
 
                     b.Property<Guid?>("CurrUserIDId")
                         .HasColumnType("uniqueidentifier");
@@ -158,15 +165,6 @@ namespace DataScribeCloudePrototype.Server.Migrations
                 });
 
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.DocFiles", b =>
-                {
-                    b.HasOne("DataScribeCloudePrototype.Server.Models.User", "UserID")
-                        .WithMany()
-                        .HasForeignKey("UserIDId");
-
-                    b.Navigation("UserID");
-                });
-
-            modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.Image", b =>
                 {
                     b.HasOne("DataScribeCloudePrototype.Server.Models.User", "UserID")
                         .WithMany()
