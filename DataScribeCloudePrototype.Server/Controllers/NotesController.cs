@@ -34,7 +34,7 @@ namespace DataScribeCloudePrototype.Server.Controllers
             return Ok(addedNote);
         }
 
-        [HttpPost("UpdateNotes")]
+        [HttpPut("UpdateNotes")]
         public async Task<IActionResult> UpdateNotes(int id, string title, string content)
         {
             await _manager.UpdateNotes(id, title, content);

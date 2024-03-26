@@ -12,20 +12,6 @@ namespace DataScribeCloudePrototype.Server.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Images",
-                columns: table => new
-                {
-                    ImageId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UrlImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserID = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Images", x => x.ImageId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -45,14 +31,15 @@ namespace DataScribeCloudePrototype.Server.Migrations
                     AudioId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UrlAidio = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserIDId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    CurrUserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Audio", x => x.AudioId);
                     table.ForeignKey(
-                        name: "FK_Audio_Users_UserIDId",
-                        column: x => x.UserIDId,
+                        name: "FK_Audio_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
@@ -64,14 +51,35 @@ namespace DataScribeCloudePrototype.Server.Migrations
                     DocId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DocUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserIDId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    CurrUserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DocFiles", x => x.DocId);
                     table.ForeignKey(
-                        name: "FK_DocFiles_Users_UserIDId",
-                        column: x => x.UserIDId,
+                        name: "FK_DocFiles_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    ImageId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UrlImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CurrUserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.ImageId);
+                    table.ForeignKey(
+                        name: "FK_Images_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
@@ -84,14 +92,15 @@ namespace DataScribeCloudePrototype.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserIDId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    CurrUserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Notes", x => x.NotesId);
                     table.ForeignKey(
-                        name: "FK_Notes_Users_UserIDId",
-                        column: x => x.UserIDId,
+                        name: "FK_Notes_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
@@ -103,37 +112,43 @@ namespace DataScribeCloudePrototype.Server.Migrations
                     PDFId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PDFUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CurrUserIDId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    CurrUserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pdf", x => x.PDFId);
                     table.ForeignKey(
-                        name: "FK_Pdf_Users_CurrUserIDId",
-                        column: x => x.CurrUserIDId,
+                        name: "FK_Pdf_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Audio_UserIDId",
+                name: "IX_Audio_UserId",
                 table: "Audio",
-                column: "UserIDId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocFiles_UserIDId",
+                name: "IX_DocFiles_UserId",
                 table: "DocFiles",
-                column: "UserIDId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Notes_UserIDId",
+                name: "IX_Images_UserId",
+                table: "Images",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notes_UserId",
                 table: "Notes",
-                column: "UserIDId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pdf_CurrUserIDId",
+                name: "IX_Pdf_UserId",
                 table: "Pdf",
-                column: "CurrUserIDId");
+                column: "UserId");
         }
 
         /// <inheritdoc />

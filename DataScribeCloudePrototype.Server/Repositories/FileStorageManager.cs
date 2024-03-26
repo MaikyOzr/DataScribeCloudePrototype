@@ -48,8 +48,10 @@ namespace DataScribeCloudePrototype.Server.Service
 
         public async Task<int> AddNotes(string title, string content)
         {
+            var userId = GetUserId();
             var notes = new Notes
             {
+                CurrUserID = userId,
                 Title = title,
                 Content = content,
             };
@@ -110,6 +112,11 @@ namespace DataScribeCloudePrototype.Server.Service
         public void GetFile(IFormFile file)
         {
             throw new NotImplementedException();
+        }
+
+        private Guid GetUserId() {
+            var userId = new User().Id;
+            return userId;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DataScribeCloudePrototype.Server.Data;
 using DataScribeCloudePrototype.Server.Models;
 using DataScribeCloudePrototype.Server.Service.Interfaces;
+using Microsoft.Identity.Client;
 
 namespace DataScribeCloudePrototype.Server.Service
 {
@@ -22,5 +23,13 @@ namespace DataScribeCloudePrototype.Server.Service
             await _context.AddAsync(user);
             await _context.SaveChangesAsync();
         }
+
+        public string HashPaswword(string password) => 
+            BCrypt.Net.BCrypt.EnhancedHashPassword(password);
+
+        public bool Verify(string password, string hashPassword) =>
+            BCrypt.Net.BCrypt.EnhancedVerify(password, hashPassword);
+
+        
     }
 }

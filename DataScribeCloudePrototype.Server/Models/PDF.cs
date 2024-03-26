@@ -8,7 +8,8 @@ namespace DataScribeCloudePrototype.Server.Models
         [Key]
         public int PDFId { get; set; }
         public string PDFUrl { get; set; } = string.Empty;
-        public User? CurrUserID { get; set; }
+        [ForeignKey("User")]
+        public Guid CurrUserID { get; set; }
         public IEnumerator<Pdf> GetEnumerator()
         {
             yield return this;

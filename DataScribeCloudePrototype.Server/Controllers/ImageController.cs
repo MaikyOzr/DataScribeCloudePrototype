@@ -8,11 +8,11 @@ namespace DataScribeCloudePrototype.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FilesController : ControllerBase
+    public class ImageController : ControllerBase
     {
         private readonly FileStorageManager _manager;
         private readonly ApplicationDbContext _context;
-        public FilesController(FileStorageManager fileStorageManager, ApplicationDbContext context)
+        public ImageController(FileStorageManager fileStorageManager, ApplicationDbContext context)
         {
             _manager = fileStorageManager;
             _context = context;

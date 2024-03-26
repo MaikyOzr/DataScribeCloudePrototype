@@ -12,13 +12,12 @@ namespace DataScribeCloudePrototype.Server.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager _userManager;
-
+        
         public RegistrationController(ApplicationDbContext context, UserManager userManager)
         {
             _context = context;
             _userManager = userManager;
         }
-
         
         [HttpGet]
         public async Task<List<User>> GetUsers()
@@ -28,10 +27,12 @@ namespace DataScribeCloudePrototype.Server.Controllers
     
         [HttpPost]
         public async Task<IActionResult> CreateUser(string email, string password) {
+
+            var hashPassword = _userManager.HashPaswword(password);
             var user = new User
             {
                 Email = email,
-                Password = password
+                Password = hashPassword
             };
             if (_userManager.IsEmailRegisted(user))
             {

@@ -8,7 +8,8 @@ namespace DataScribeCloudePrototype.Server.Models
         [Key]
         public int DocId { get; set; }
         public string DocUrl { get; set; } = string.Empty;
-        public User? UserID { get; set; }
+        [ForeignKey("User")]
+        public Guid CurrUserID { get; set; }
         public IEnumerator<DocFiles> GetEnumerator()
         {
             yield return this;

@@ -3,7 +3,7 @@ namespace DataScribeCloudePrototype.Server.Service.Interfaces
 {
     public interface IFileStorage
     {
-        Task UpdateNotes(int id, string title, string content);
+        Task UpdateNotes(int id,string title, string content);
         void AddAudioFiles(IFormFile file);
         void AddDocFiles(IFormFile file);
         Task<int> AddImageFiles(IFormFile file);

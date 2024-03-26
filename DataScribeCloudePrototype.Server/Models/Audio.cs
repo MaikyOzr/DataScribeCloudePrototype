@@ -8,7 +8,9 @@ namespace DataScribeCloudePrototype.Server.Models
         [Key]
         public int AudioId { get; set; }
         public string UrlAidio { get; set; } = string.Empty;
-        public User? UserID { get; set; }
+
+        [ForeignKey("User")]
+        public Guid CurrUserID { get; set; }
         public IEnumerator<Audio> GetEnumerator()
         {
             yield return this;

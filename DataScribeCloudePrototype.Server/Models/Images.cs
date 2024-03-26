@@ -8,7 +8,8 @@ namespace DataScribeCloudePrototype.Server.Models
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ImageId { get; set; }
         public string? UrlImage { get; set; } = string.Empty;
-        public string? UserID { get; set; } = string.Empty;
+        [ForeignKey("User")]
+        public Guid CurrUserID { get; set; }
         public IEnumerator<Images> GetEnumerator()
         {
             yield return this;

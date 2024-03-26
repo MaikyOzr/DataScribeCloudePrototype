@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataScribeCloudePrototype.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240322104941_MigrationDb")]
+    [Migration("20240326192244_MigrationDb")]
     partial class MigrationDb
     {
         /// <inheritdoc />
@@ -33,16 +33,19 @@ namespace DataScribeCloudePrototype.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AudioId"));
 
+                    b.Property<Guid>("CurrUserID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("UrlAidio")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("UserIDId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("AudioId");
 
-                    b.HasIndex("UserIDId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Audio");
                 });
@@ -55,16 +58,19 @@ namespace DataScribeCloudePrototype.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocId"));
 
+                    b.Property<Guid>("CurrUserID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("DocUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("UserIDId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("DocId");
 
-                    b.HasIndex("UserIDId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("DocFiles");
                 });
@@ -77,13 +83,18 @@ namespace DataScribeCloudePrototype.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"));
 
+                    b.Property<Guid>("CurrUserID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("UrlImage")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ImageId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Images");
                 });
@@ -100,16 +111,19 @@ namespace DataScribeCloudePrototype.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("CurrUserID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("UserIDId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("NotesId");
 
-                    b.HasIndex("UserIDId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Notes");
                 });
@@ -122,16 +136,19 @@ namespace DataScribeCloudePrototype.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PDFId"));
 
-                    b.Property<Guid?>("CurrUserIDId")
+                    b.Property<Guid>("CurrUserID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PDFUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("PDFId");
 
-                    b.HasIndex("CurrUserIDId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Pdf");
                 });
@@ -157,38 +174,50 @@ namespace DataScribeCloudePrototype.Server.Migrations
 
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.Audio", b =>
                 {
-                    b.HasOne("DataScribeCloudePrototype.Server.Models.User", "UserID")
-                        .WithMany()
-                        .HasForeignKey("UserIDId");
-
-                    b.Navigation("UserID");
+                    b.HasOne("DataScribeCloudePrototype.Server.Models.User", null)
+                        .WithMany("Audios")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.DocFiles", b =>
                 {
-                    b.HasOne("DataScribeCloudePrototype.Server.Models.User", "UserID")
-                        .WithMany()
-                        .HasForeignKey("UserIDId");
+                    b.HasOne("DataScribeCloudePrototype.Server.Models.User", null)
+                        .WithMany("DocFiles")
+                        .HasForeignKey("UserId");
+                });
 
-                    b.Navigation("UserID");
+            modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.Images", b =>
+                {
+                    b.HasOne("DataScribeCloudePrototype.Server.Models.User", null)
+                        .WithMany("Images")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.Notes", b =>
                 {
-                    b.HasOne("DataScribeCloudePrototype.Server.Models.User", "UserID")
-                        .WithMany()
-                        .HasForeignKey("UserIDId");
-
-                    b.Navigation("UserID");
+                    b.HasOne("DataScribeCloudePrototype.Server.Models.User", null)
+                        .WithMany("Notes")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.Pdf", b =>
                 {
-                    b.HasOne("DataScribeCloudePrototype.Server.Models.User", "CurrUserID")
-                        .WithMany()
-                        .HasForeignKey("CurrUserIDId");
+                    b.HasOne("DataScribeCloudePrototype.Server.Models.User", null)
+                        .WithMany("Pdfs")
+                        .HasForeignKey("UserId");
+                });
 
-                    b.Navigation("CurrUserID");
+            modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.User", b =>
+                {
+                    b.Navigation("Audios");
+
+                    b.Navigation("DocFiles");
+
+                    b.Navigation("Images");
+
+                    b.Navigation("Notes");
+
+                    b.Navigation("Pdfs");
                 });
 #pragma warning restore 612, 618
         }
