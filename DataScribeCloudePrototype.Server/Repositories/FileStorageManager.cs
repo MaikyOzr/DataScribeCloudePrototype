@@ -36,7 +36,7 @@ namespace DataScribeCloudePrototype.Server.Service
             {
                 await file.CopyToAsync(fileStream);
             }
-            
+
             var image = new Images
             {
                 UrlImage = uniqueFileName
@@ -60,18 +60,35 @@ namespace DataScribeCloudePrototype.Server.Service
             return notes.NotesId;
         }
 
-        public async Task UpdateNotes(int id, string title, string content) 
+        public async Task UpdateNotes(int id, string title, string content)
         {
             await _context.Notes
                 .Where(c => c.NotesId == id)
-                .ExecuteUpdateAsync(s => 
+                .ExecuteUpdateAsync(s =>
                 s.SetProperty(c => c.Title, title)
                 .SetProperty(c => c.Content, content));
         }
 
-        public void AddPDFFiles(IFormFile file)
+        public async Task<int> AddPDFFiles(IFormFile file)
         {
-            throw new NotImplementedException();
+            var userId = new User().Id;
+            var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "Data", "PDF");
+            var uniqueFileName = Path.GetFileName(file.FileName);
+            var filePath = Path.Combine(uploadFolder, uniqueFileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+
+            var pdf = new Pdf
+            {
+                PDFUrl = uniqueFileName,
+                CurrUserID = userId
+            };
+            await _context.Pdf.AddAsync(pdf);
+            await _context.SaveChangesAsync();
+            return pdf.PDFId;
         }
 
         public void DeleteAudioFiles(IFormFile file)
@@ -94,7 +111,7 @@ namespace DataScribeCloudePrototype.Server.Service
             }
 
             await _context.Images
-                .Where(r=> r.ImageId==id)
+                .Where(r => r.ImageId == id)
                 .ExecuteDeleteAsync();
         }
         public async Task DeleteNotes(int id)
@@ -104,9 +121,18 @@ namespace DataScribeCloudePrototype.Server.Service
                 .ExecuteDeleteAsync();
         }
 
-        public void DeletePDFFiles(IFormFile file)
+        public async Task DeletePDFFiles(int id)
         {
-            throw new NotImplementedException();
+            var pdf = await _context.Pdf.FirstOrDefaultAsync(f => f.PDFId == id);
+            if (pdf != null)
+            {
+                var filePath = Path.Combine("Data", "Pdf", pdf.PDFUrl);
+                File.Delete(filePath);
+            }
+
+            await _context.Pdf
+                .Where(r => r.PDFId == id)
+                .ExecuteDeleteAsync();
         }
 
         public void GetFile(IFormFile file)
@@ -114,6 +140,6 @@ namespace DataScribeCloudePrototype.Server.Service
             throw new NotImplementedException();
         }
 
-       
+
     }
 }
