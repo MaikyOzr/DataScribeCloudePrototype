@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataScribeCloudePrototype.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240326192244_MigrationDb")]
+    [Migration("20240327135725_MigrationDb")]
     partial class MigrationDb
     {
         /// <inheritdoc />

@@ -48,7 +48,7 @@ namespace DataScribeCloudePrototype.Server.Service
 
         public async Task<int> AddNotes(string title, string content)
         {
-            var userId = GetUserId();
+            var userId = new User().Id;
             var notes = new Notes
             {
                 CurrUserID = userId,
@@ -114,9 +114,6 @@ namespace DataScribeCloudePrototype.Server.Service
             throw new NotImplementedException();
         }
 
-        private Guid GetUserId() {
-            var userId = new User().Id;
-            return userId;
-        }
+       
     }
 }
