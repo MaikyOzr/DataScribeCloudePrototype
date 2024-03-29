@@ -10,7 +10,6 @@ namespace DataScribeCloudePrototype.Server.Service.Interfaces
         Task<int> AddPDFFiles(IFormFile file);
         Task<int> AddNotes(string title, string content);
         Task DeleteNotes(int id);
-        void GetFile(IFormFile file);
         void DeleteDocFile(IFormFile file);
         void DeleteAudioFiles(IFormFile file);
         Task DeleteImageFiles(int id);

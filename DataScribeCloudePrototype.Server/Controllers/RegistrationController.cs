@@ -19,14 +19,14 @@ namespace DataScribeCloudePrototype.Server.Controllers
             _userManager = userManager;
         }
         
-        [HttpGet]
+        [HttpGet("GetUsers")]
         public async Task<List<User>> GetUsers()
         {
             return await _context.Users.ToListAsync();
         }
     
-        [HttpPost]
-        public async Task<IActionResult> CreateUser(string email, string password) {
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register(string email, string password) {
 
             var hashPassword = _userManager.HashPaswword(password);
             var user = new User
@@ -43,6 +43,18 @@ namespace DataScribeCloudePrototype.Server.Controllers
             return Ok("Користувач успішно зареєстрований!");
         }
 
-        
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(string? email, string? password)
+        {
+            var user = await _userManager.FindByEmail(email);
+            var verifyPassword = _userManager.Verify(password, user.Password);
+            if (verifyPassword) {
+                return Ok("Ви успішно залогінені");
+            }
+            
+            return Ok("Ваша пошта або пароль не правельні");
+        }
+
+
     }
 }

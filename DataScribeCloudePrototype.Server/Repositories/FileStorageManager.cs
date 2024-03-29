@@ -126,7 +126,7 @@ namespace DataScribeCloudePrototype.Server.Service
             var pdf = await _context.Pdf.FirstOrDefaultAsync(f => f.PDFId == id);
             if (pdf != null)
             {
-                var filePath = Path.Combine("Data", "Pdf", pdf.PDFUrl);
+                var filePath = Path.Combine("Data", "PDF", pdf.PDFUrl);
                 File.Delete(filePath);
             }
 
@@ -134,12 +134,5 @@ namespace DataScribeCloudePrototype.Server.Service
                 .Where(r => r.PDFId == id)
                 .ExecuteDeleteAsync();
         }
-
-        public void GetFile(IFormFile file)
-        {
-            throw new NotImplementedException();
-        }
-
-
     }
 }

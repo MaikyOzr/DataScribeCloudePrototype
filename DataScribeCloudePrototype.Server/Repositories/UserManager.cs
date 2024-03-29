@@ -1,6 +1,7 @@
 ﻿using DataScribeCloudePrototype.Server.Data;
 using DataScribeCloudePrototype.Server.Models;
 using DataScribeCloudePrototype.Server.Service.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 
 namespace DataScribeCloudePrototype.Server.Service
@@ -30,6 +31,11 @@ namespace DataScribeCloudePrototype.Server.Service
         public bool Verify(string password, string hashPassword) =>
             BCrypt.Net.BCrypt.EnhancedVerify(password, hashPassword);
 
-        
+        public async Task<User> FindByEmail(string? email) {
+            var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(e => e.Email == email);
+            return user;
+        }
+
+
     }
 }

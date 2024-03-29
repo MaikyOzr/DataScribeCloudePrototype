@@ -8,11 +8,11 @@ namespace DataScribeCloudePrototype.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PDFController : ControllerBase
+    public class PdfController : ControllerBase
     {
         private readonly FileStorageManager _manager;
         private readonly ApplicationDbContext _context;
-        public PDFController(FileStorageManager fileStorageManager, ApplicationDbContext context)
+        public PdfController(FileStorageManager fileStorageManager, ApplicationDbContext context)
         {
             _manager = fileStorageManager;
             _context = context;
@@ -28,7 +28,7 @@ namespace DataScribeCloudePrototype.Server.Controllers
 
         [HttpPost("AddPDF")]
         [RequestFormLimits(MultipartBodyLengthLimit = 104857600)]
-        public async Task<IActionResult> AddPDFFiles(IFormFile file)
+        public async Task<IActionResult> AddPdfFiles(IFormFile file)
         {
             if (file == null && file.Length == 0)
             {
@@ -41,7 +41,7 @@ namespace DataScribeCloudePrototype.Server.Controllers
         }
 
         [HttpDelete("DeletePDFFile")]
-        public async Task<IActionResult> DeleteImageFile(int id)
+        public async Task<IActionResult> DeletePdfFile(int id)
         {
             await _manager.DeletePDFFiles(id);
             return Ok("Removing was successful");

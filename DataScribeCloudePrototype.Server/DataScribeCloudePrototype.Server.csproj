@@ -12,6 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Images\**" />
+    <Content Remove="Data\Images\**" />
+    <EmbeddedResource Remove="Data\Images\**" />
+    <None Remove="Data\Images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Docker.DotNet" Version="3.125.15" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
@@ -35,7 +42,7 @@
 
   <ItemGroup>
     <Folder Include="Data\Image\" />
-    <Folder Include="Data\Images\" />
+    <Folder Include="Data\Pdf\" />
     <Folder Include="Data\PDF\" />
   </ItemGroup>
 
