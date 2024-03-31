@@ -1,51 +1,51 @@
 import React, { useState, useEffect } from 'react';
+import LoginForm from './Login';
+import Notes from './Api'; // Помітили зміну імпорту
 
 function App() {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [userData, setUserData] = useState([]);
+    const [loadingUsers, setLoadingUsers] = useState(true);
 
     useEffect(() => {
-        fetchData();
+        fetchUsers()
     }, []);
 
-    const fetchData = async () => {
+    const fetchUsers = async () => {
         try {
-            const response = await fetch('https://localhost:7029/api/Notes/GetNotes');//для перевірки користувача встав /Registration/
-            //const responseClone = response.clone();
-
+            const response = await fetch('https://localhost:7029/api/Registration/GetUsers');
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }
 
             const jsonData = await response.json();
-            setData(jsonData);
-            setLoading(false);
+            setUserData(jsonData);
+            setLoadingUsers(false);
         } catch (error) {
             console.error('Error fetching data:', error);
-
-            // Log the response body text if JSON parsing failed
-            responseClone.text()
-                .then(bodyText => {
-                    console.log('Received the following instead of valid JSON:', bodyText);
-                });
-
-            setLoading(false);
+            setLoadingUsers(false);
         }
     };
 
     return (
         <div>
             <h1>This is DATASCRIBE BABY )</h1>
-            {loading ? (
+            {loadingUsers ? (
                 <p>Loading...</p>
             ) : (
-                <ul>
-                    {data.map(item => (
-                        <li key={item.id}>
-                            {item.title} = {item.content}
-                        </li>
-                    ))}
-                </ul>
+                <>
+                    <div>
+                        <h2>User Data</h2>
+                        <LoginForm />
+                        <ul>
+                            {userData.map(user => (
+                                <li key={user.id}>
+                                    {user.email}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <Notes/>
+                </>
             )}
         </div>
     );
