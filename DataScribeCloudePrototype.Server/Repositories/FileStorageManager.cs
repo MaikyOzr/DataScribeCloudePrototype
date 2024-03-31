@@ -21,9 +21,26 @@ namespace DataScribeCloudePrototype.Server.Service
             throw new NotImplementedException();
         }
 
-        public void AddDocFiles(IFormFile file)
+        public async Task<int> AddDocFiles(IFormFile file)
         {
-            throw new NotImplementedException();
+            var userId = new User().Id;
+            var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Doc");
+            var uniqueFileName = Path.GetFileName(file.FileName);
+            var filePath = Path.Combine(uploadFolder, uniqueFileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+
+            var doc = new DocFiles
+            {
+                DocUrl = uniqueFileName,
+                CurrUserID = userId
+            };
+            await _context.DocFiles.AddAsync(doc);
+            await _context.SaveChangesAsync();
+            return doc.DocId;
         }
 
         public async Task<int> AddImageFiles(IFormFile file)
@@ -96,9 +113,18 @@ namespace DataScribeCloudePrototype.Server.Service
             throw new NotImplementedException();
         }
 
-        public void DeleteDocFile(IFormFile file)
+        public async Task DeleteDocFile(int id)
         {
-            throw new NotImplementedException();
+            var doc = await _context.DocFiles.FirstOrDefaultAsync(f => f.DocId == id);
+            if (doc != null)
+            {
+                var filePath = Path.Combine("Data", "Doc", doc.DocUrl);
+                File.Delete(filePath);
+            }
+
+            await _context.DocFiles
+                .Where(r => r.DocId == id)
+                .ExecuteDeleteAsync();
         }
 
         public async Task DeleteImageFiles(int id)

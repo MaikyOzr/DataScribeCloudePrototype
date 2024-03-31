@@ -42,6 +42,7 @@
 
   <ItemGroup>
     <Folder Include="Data\Image\" />
+    <Folder Include="Data\Doc\" />
     <Folder Include="Data\Pdf\" />
     <Folder Include="Data\PDF\" />
   </ItemGroup>
