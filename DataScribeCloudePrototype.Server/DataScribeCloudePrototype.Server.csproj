@@ -59,8 +59,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Image\" />
     <Folder Include="Data\Doc\" />
+    <Folder Include="Data\Image\" />
+    <Folder Include="Data\Image\" />
+    <Folder Include="Data\PDF\" />
+    <Folder Include="Data\Pptx\" />
     <Folder Include="Data\Pdf\" />
     <Folder Include="Data\PDF\" />
   </ItemGroup>

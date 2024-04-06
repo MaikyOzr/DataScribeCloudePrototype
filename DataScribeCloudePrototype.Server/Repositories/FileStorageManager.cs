@@ -79,6 +79,12 @@ namespace DataScribeCloudePrototype.Server.Service
                     await _context.SaveChangesAsync();
                     return audio.AudioId;
                     break;
+                case FileType.Pptx:
+                    var pptx = new Pptx { PptxUrl = filePath, CurrUserID = userId };
+                    await _context.Pptx.AddAsync(pptx);
+                    await _context.SaveChangesAsync();
+                    return pptx.PptxId;
+                    break;
                 default:
                     throw new InvalidOperationException("Invalid file type");
             }
@@ -143,6 +149,16 @@ namespace DataScribeCloudePrototype.Server.Service
                     File.Delete(filePath);
                     await _context.Audio
                         .Where(r => r.AudioId == id)
+                        .ExecuteDeleteAsync();
+                    break;
+                case FileType.Pptx:
+                    var pptx = await _context.Pptx.FirstOrDefaultAsync(f => f.PptxId == id);
+                    if (pptx == null)
+                        return;
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Pptx", pptx.PptxUrl);
+                    File.Delete(filePath);
+                    await _context.Pptx
+                        .Where(r => r.PptxId == id)
                         .ExecuteDeleteAsync();
                     break;
                 default:

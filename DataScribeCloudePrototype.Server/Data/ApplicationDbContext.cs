@@ -21,4 +21,5 @@ public class ApplicationDbContext: DbContext
     public DbSet<Audio> Audio { get; set; }
     public DbSet<DocFiles> DocFiles { get; set; }
     public DbSet<Pdf> Pdf { get; set; }
+    public DbSet<Pptx> Pptx { get; set; }
 }

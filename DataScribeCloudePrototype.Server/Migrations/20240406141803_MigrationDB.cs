@@ -12,6 +12,20 @@ namespace DataScribeCloudePrototype.Server.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Pptx",
+                columns: table => new
+                {
+                    PptxId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PptxUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CurrUserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pptx", x => x.PptxId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -168,6 +182,9 @@ namespace DataScribeCloudePrototype.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "Pdf");
+
+            migrationBuilder.DropTable(
+                name: "Pptx");
 
             migrationBuilder.DropTable(
                 name: "Users");

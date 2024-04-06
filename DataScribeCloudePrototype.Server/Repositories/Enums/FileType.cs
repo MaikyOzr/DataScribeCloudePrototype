@@ -5,6 +5,7 @@
         Doc,
         Image,
         PDF,
-        Audio
+        Audio,
+        Pptx
     }
 }

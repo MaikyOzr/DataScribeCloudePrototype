@@ -150,6 +150,26 @@ namespace DataScribeCloudePrototype.Server.Migrations
                     b.ToTable("Pdf");
                 });
 
+            modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.Pptx", b =>
+                {
+                    b.Property<int>("PptxId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PptxId"));
+
+                    b.Property<Guid>("CurrUserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PptxUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PptxId");
+
+                    b.ToTable("Pptx");
+                });
+
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
