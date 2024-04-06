@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import './RegistrationForm.css'; // Імпортуємо стилі для форми
 
-function LoginForm() {
+const RegistrationForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -9,7 +10,7 @@ function LoginForm() {
         event.preventDefault();
 
         try {
-            const response = await fetch('https://localhost:7029/api/Registration/Login', {
+            const response = await fetch('https://localhost:7029/api/Registration/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -17,43 +18,52 @@ function LoginForm() {
                 body: JSON.stringify({ email, password }),
             });
 
+            const data = await response.json();
+
             if (!response.ok) {
-                throw new Error('Login failed');
+                throw new Error(data.message || 'Registration failed');
             }
 
-            // Тут ви можете виконати додаткову логіку після успішного логіну, наприклад, перенаправлення на іншу сторінку
-            console.log('Login successful');
+            // Тут ви можете виконати додаткову логіку після успішної реєстрації, наприклад, перенаправлення на іншу сторінку
+            console.log('Registration successful');
         } catch (error) {
             setError(error.message);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <div>
-                <label htmlFor="email">Email:</label>
-                <input
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    required
-                />
+        <div className="registration-form-container">
+            <div className="registration-form">
+                <h2>Registration Form</h2>
+                <form onSubmit={handleSubmit}>
+                    {error && <p className="error-message">{error}</p>}
+                    <div className="form-group">
+                        <label htmlFor="email">Email:</label>
+                        <input
+                            type="email"
+                            id="email"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                            className="form-control"
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password">Password:</label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
+                            className="form-control"
+                            required
+                        />
+                    </div>
+                    <button type="submit" className="btn btn-purple">Register</button>
+                </form>
             </div>
-            <div>
-                <label htmlFor="password">Password:</label>
-                <input
-                    type="password"
-                    id="password"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    required
-                />
-            </div>
-            <button type="submit">Login</button>
-        </form>
+        </div>
     );
-}
+};
 
-export default LoginForm;
+export default RegistrationForm;

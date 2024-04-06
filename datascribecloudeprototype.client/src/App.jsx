@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import LoginForm from './Login';
+import RegistrationForm from './Login';
 import Notes from './Api'; // Помітили зміну імпорту
 
 function App() {
@@ -28,23 +28,11 @@ function App() {
 
     return (
         <div>
-            <h1>This is DATASCRIBE BABY )</h1>
             {loadingUsers ? (
                 <p>Loading...</p>
             ) : (
                 <>
-                    <div>
-                        <h2>User Data</h2>
-                        <LoginForm />
-                        <ul>
-                            {userData.map(user => (
-                                <li key={user.id}>
-                                    {user.email}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <Notes/>
+                    <RegistrationForm />     
                 </>
             )}
         </div>

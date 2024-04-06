@@ -1,0 +1,34 @@
+.registration-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.registration-form {
+    background-color: rgba(128, 0, 32, 0.2); /* Темно-фіолетовий колір з прозорістю 60% */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Тінь */
+    max-width: 800px; /* Максимальна ширина форми */
+    backdrop-filter: blur(5px); /* Ефект розмиття для створення ефекту скла */
+}
+
+    .registration-form h2 {
+        text-align: center;
+    }
+
+.error-message {
+    color: red;
+    text-align: center;
+}
+
+.btn-purple {
+    background-color: purple;
+    color: white;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
