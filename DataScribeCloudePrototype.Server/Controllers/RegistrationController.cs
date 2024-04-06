@@ -8,6 +8,7 @@ namespace DataScribeCloudePrototype.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ResponseCache(CacheProfileName = "Default30")]
     public class RegistrationController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -36,11 +37,11 @@ namespace DataScribeCloudePrototype.Server.Controllers
             };
             if (_userManager.IsEmailRegisted(user))
             {
-                return BadRequest("Електронна пошта вже зареєстрована!");
+                return BadRequest("Mail registered!");
             }
             await _userManager.AddUser(user);
 
-            return Ok("Користувач успішно зареєстрований!");
+            return Ok("User is successfully registered!");
         }
 
         [HttpPost("Login")]
@@ -49,10 +50,10 @@ namespace DataScribeCloudePrototype.Server.Controllers
             var user = await _userManager.FindByEmail(email);
             var verifyPassword = _userManager.Verify(password, user.Password);
             if (verifyPassword) {
-                return Ok("Ви успішно залогінені");
+                return Ok("You are successfully logged in");
             }
             
-            return Ok("Ваша пошта або пароль не правельні");
+            return Ok("Your email or password is not correct");
         }
 
 

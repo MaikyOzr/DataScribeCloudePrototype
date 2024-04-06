@@ -1,5 +1,6 @@
 ﻿using DataScribeCloudePrototype.Server.Data;
 using DataScribeCloudePrototype.Server.Models;
+using DataScribeCloudePrototype.Server.Repositories.Enums;
 using DataScribeCloudePrototype.Server.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ namespace DataScribeCloudePrototype.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ResponseCache(CacheProfileName = "Default30")]
     public class PdfController : ControllerBase
     {
         private readonly FileStorageManager _manager;
@@ -35,7 +37,7 @@ namespace DataScribeCloudePrototype.Server.Controllers
                 return BadRequest("File is empty");
             }
 
-            await _manager.AddPDFFiles(file);
+            await _manager.AddFile(FileType.PDF, file);
             var pdf = await _context.Pdf.OrderByDescending(i => i.PDFId).FirstOrDefaultAsync();
             return Ok(pdf);
         }
@@ -43,7 +45,7 @@ namespace DataScribeCloudePrototype.Server.Controllers
         [HttpDelete("DeletePDFFile")]
         public async Task<IActionResult> DeletePdfFile(int id)
         {
-            await _manager.DeletePDFFiles(id);
+            await _manager.DeleteFile(FileType.PDF, id);
             return Ok("Removing was successful");
         }
     }

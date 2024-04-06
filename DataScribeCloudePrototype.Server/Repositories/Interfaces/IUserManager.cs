@@ -6,5 +6,8 @@ namespace DataScribeCloudePrototype.Server.Service.Interfaces
     {
         Task AddUser(User user);
         Task <User> FindByEmail(string? email);
+        bool IsEmailRegisted(User user);
+        string HashPaswword(string password);
+        bool Verify(string password, string hashPassword);
     }
 }

@@ -2,17 +2,19 @@
 using DataScribeCloudePrototype.Server.Models;
 using DataScribeCloudePrototype.Server.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
+using System.Security.Claims;
 
 namespace DataScribeCloudePrototype.Server.Service
 {
     public class UserManager : IUserManager
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserManager(ApplicationDbContext context)
+        public UserManager(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public bool IsEmailRegisted(User user) {
@@ -25,6 +27,15 @@ namespace DataScribeCloudePrototype.Server.Service
             await _context.SaveChangesAsync();
         }
 
+        public Guid GetCurrUserId() {
+            var userIdString = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (Guid.TryParse(userIdString, out Guid userId))
+            {
+                return userId;
+            }
+            return Guid.Empty;
+        }
+
         public string HashPaswword(string password) => 
             BCrypt.Net.BCrypt.EnhancedHashPassword(password);
 
@@ -35,7 +46,5 @@ namespace DataScribeCloudePrototype.Server.Service
             var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(e => e.Email == email);
             return user;
         }
-
-
     }
 }

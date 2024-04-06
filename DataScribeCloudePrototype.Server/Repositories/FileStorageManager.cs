@@ -1,71 +1,26 @@
 ﻿using DataScribeCloudePrototype.Server.Data;
 using DataScribeCloudePrototype.Server.Models;
-using DataScribeCloudePrototype.Server.Service.Interfaces;
+using DataScribeCloudePrototype.Server.Repositories.Enums;
+using DataScribeCloudePrototype.Server.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataScribeCloudePrototype.Server.Service
 {
-    public class FileStorageManager : IFileStorage
+    public class FileStorageManager 
+        : IAddFiles, IDeleteFiles, IDeleteNotes
     {
 
         private readonly ApplicationDbContext _context;
-
-        public FileStorageManager(ApplicationDbContext context)
+        private readonly UserManager _userManager;
+        public FileStorageManager(ApplicationDbContext context, UserManager userManager)
         {
             _context = context;
-
-        }
-
-        public void AddAudioFiles(IFormFile file)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<int> AddDocFiles(IFormFile file)
-        {
-            var userId = new User().Id;
-            var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Doc");
-            var uniqueFileName = Path.GetFileName(file.FileName);
-            var filePath = Path.Combine(uploadFolder, uniqueFileName);
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(fileStream);
-            }
-
-            var doc = new DocFiles
-            {
-                DocUrl = uniqueFileName,
-                CurrUserID = userId
-            };
-            await _context.DocFiles.AddAsync(doc);
-            await _context.SaveChangesAsync();
-            return doc.DocId;
-        }
-
-        public async Task<int> AddImageFiles(IFormFile file)
-        {
-            var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Image");
-            var uniqueFileName = Path.GetFileName(file.FileName);
-            var filePath = Path.Combine(uploadFolder, uniqueFileName);
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(fileStream);
-            }
-
-            var image = new Images
-            {
-                UrlImage = uniqueFileName
-            };
-            await _context.Images.AddAsync(image);
-            await _context.SaveChangesAsync();
-            return image.ImageId;
+            _userManager = userManager;
         }
 
         public async Task<int> AddNotes(string title, string content)
         {
-            var userId = new User().Id;
+            var userId = _userManager.GetCurrUserId();
             var notes = new Notes
             {
                 CurrUserID = userId,
@@ -85,61 +40,7 @@ namespace DataScribeCloudePrototype.Server.Service
                 s.SetProperty(c => c.Title, title)
                 .SetProperty(c => c.Content, content));
         }
-
-        public async Task<int> AddPDFFiles(IFormFile file)
-        {
-            var userId = new User().Id;
-            var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "Data", "PDF");
-            var uniqueFileName = Path.GetFileName(file.FileName);
-            var filePath = Path.Combine(uploadFolder, uniqueFileName);
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(fileStream);
-            }
-
-            var pdf = new Pdf
-            {
-                PDFUrl = uniqueFileName,
-                CurrUserID = userId
-            };
-            await _context.Pdf.AddAsync(pdf);
-            await _context.SaveChangesAsync();
-            return pdf.PDFId;
-        }
-
-        public void DeleteAudioFiles(IFormFile file)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task DeleteDocFile(int id)
-        {
-            var doc = await _context.DocFiles.FirstOrDefaultAsync(f => f.DocId == id);
-            if (doc != null)
-            {
-                var filePath = Path.Combine("Data", "Doc", doc.DocUrl);
-                File.Delete(filePath);
-            }
-
-            await _context.DocFiles
-                .Where(r => r.DocId == id)
-                .ExecuteDeleteAsync();
-        }
-
-        public async Task DeleteImageFiles(int id)
-        {
-            var image = await _context.Images.FirstOrDefaultAsync(f => f.ImageId == id);
-            if (image != null)
-            {
-                var filePath = Path.Combine("Data", "Image", image.UrlImage);
-                File.Delete(filePath);
-            }
-
-            await _context.Images
-                .Where(r => r.ImageId == id)
-                .ExecuteDeleteAsync();
-        }
+        
         public async Task DeleteNotes(int id)
         {
             await _context.Notes
@@ -147,18 +48,106 @@ namespace DataScribeCloudePrototype.Server.Service
                 .ExecuteDeleteAsync();
         }
 
-        public async Task DeletePDFFiles(int id)
+        public async Task<int> AddFile(FileType fileType, IFormFile file)
         {
-            var pdf = await _context.Pdf.FirstOrDefaultAsync(f => f.PDFId == id);
-            if (pdf != null)
+            var userId = _userManager.GetCurrUserId();
+            var filePath = await SaveFileAsync(fileType, file);
+
+            switch (fileType)
             {
-                var filePath = Path.Combine("Data", "PDF", pdf.PDFUrl);
-                File.Delete(filePath);
+                case FileType.Doc:
+                    var doc = new DocFiles { DocUrl = filePath, CurrUserID = userId };
+                    await _context.DocFiles.AddAsync(doc);
+                    await _context.SaveChangesAsync();
+                    return doc.DocId;
+                    break;
+                case FileType.Image:
+                    var image = new Images { UrlImage = filePath, CurrUserID = userId };
+                    await _context.Images.AddAsync(image);
+                    await _context.SaveChangesAsync();
+                    return image.ImageId;
+                    break;
+                case FileType.PDF:
+                    var pdf = new Pdf { PDFUrl = filePath, CurrUserID = userId };
+                    await _context.Pdf.AddAsync(pdf);
+                    await _context.SaveChangesAsync();
+                    return pdf.PDFId;
+                    break;
+                case FileType.Audio:
+                    var audio = new Audio { UrlAidio = filePath, CurrUserID = userId };
+                    await _context.Audio.AddAsync(audio);
+                    await _context.SaveChangesAsync();
+                    return audio.AudioId;
+                    break;
+                default:
+                    throw new InvalidOperationException("Invalid file type");
+            }
+        }
+
+        private async Task<string> SaveFileAsync(FileType fileType, IFormFile file)
+        {
+            var userId = _userManager.GetCurrUserId();
+            var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "Data", fileType.ToString());
+            var uniqueFileName = Path.GetRandomFileName();
+            var filePath = Path.Combine(uploadFolder, uniqueFileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
             }
 
-            await _context.Pdf
-                .Where(r => r.PDFId == id)
-                .ExecuteDeleteAsync();
+            return uniqueFileName;
+        }
+        
+
+        public async Task DeleteFile(FileType fileType, int id)
+        {
+            string filePath;
+            switch (fileType)
+            {
+                case FileType.Doc:
+                    var doc = await _context.DocFiles.FirstOrDefaultAsync(f => f.DocId == id);
+                    if (doc == null)
+                        return; 
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Doc", doc.DocUrl);
+                    File.Delete(filePath);
+                    await _context.DocFiles
+                        .Where(r => r.DocId == id)
+                        .ExecuteDeleteAsync();
+                    break;
+                case FileType.Image:
+                    var image = await _context.Images.FirstOrDefaultAsync(f => f.ImageId == id);
+                    if (image == null)
+                        return; 
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Image", image.UrlImage);
+                    File.Delete(filePath);
+                    await _context.Images
+                        .Where(r => r.ImageId == id)
+                        .ExecuteDeleteAsync();
+                    break;
+                case FileType.PDF:
+                    var pdf = await _context.Pdf.FirstOrDefaultAsync(f => f.PDFId == id);
+                    if (pdf == null)
+                        return; 
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "PDF", pdf.PDFUrl);
+                    File.Delete(filePath);
+                    await _context.Pdf
+                        .Where(r => r.PDFId == id)
+                        .ExecuteDeleteAsync();
+                    break;
+                case FileType.Audio:
+                    var audio = await _context.Audio.FirstOrDefaultAsync(f => f.AudioId == id);
+                    if (audio == null)
+                        return; 
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Audio", audio.UrlAidio);
+                    File.Delete(filePath);
+                    await _context.Audio
+                        .Where(r => r.AudioId == id)
+                        .ExecuteDeleteAsync();
+                    break;
+                default:
+                    throw new InvalidOperationException("Invalid file type");
+            }
         }
     }
 }

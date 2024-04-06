@@ -1,7 +1,6 @@
 ﻿using DataScribeCloudePrototype.Server.Models;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace DataScribeCloudePrototype.Server.Data;
 
 public class ApplicationDbContext: DbContext

@@ -1,9 +1,8 @@
-
 using DataScribeCloudePrototype.Server.Data;
 using DataScribeCloudePrototype.Server.Service;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+
 
 namespace DataScribeCloudePrototype.Server
 {
@@ -11,19 +10,23 @@ namespace DataScribeCloudePrototype.Server
     {
         public static void Main(string[] args)
         {
+            
             var builder = WebApplication.CreateBuilder(args);
+            var service = builder.Services;
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            service.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddDbContext<ApplicationDbContext>(
+            service.AddEndpointsApiExplorer();
+            service.AddSwaggerGen();
+            service.AddDbContext<ApplicationDbContext>(
                 opt => opt.UseSqlServer
                 (builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddCors(options =>
+
+
+            service.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder =>
                 {
@@ -33,14 +36,25 @@ namespace DataScribeCloudePrototype.Server
                 });
             });
 
-           
-            builder.Services.AddScoped<UserManager>();
-            builder.Services.AddScoped<FileStorageManager>();
+            service.AddHttpContextAccessor();
+            service.AddScoped<UserManager>();
+            service.AddScoped<FileStorageManager>();
+            service.AddResponseCaching();
+            service.AddControllers(options =>
+            {
+                options.CacheProfiles.Add("Default30",
+                    new CacheProfile()
+                    {
+                        Duration = 30
+                    });
+            });
+
             var app = builder.Build();
 
             app.UseCors();
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseResponseCaching();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

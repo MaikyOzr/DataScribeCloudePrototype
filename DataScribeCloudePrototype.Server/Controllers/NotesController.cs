@@ -8,6 +8,7 @@ namespace DataScribeCloudePrototype.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ResponseCache(CacheProfileName = "Default30")]
     public class NotesController : ControllerBase
     {
         private readonly FileStorageManager _manager;
