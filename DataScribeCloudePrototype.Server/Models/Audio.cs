@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using DataScribeCloudePrototype.Server.Repositories.Interfaces;
 
 namespace DataScribeCloudePrototype.Server.Models
 {
-    public class Audio
+    public class Audio : IFileEntity
     {
         [Key]
-        public int AudioId { get; set; }
+        public int Id { get; set; }
         public string UrlAidio { get; set; } = string.Empty;
 
         [ForeignKey("User")]

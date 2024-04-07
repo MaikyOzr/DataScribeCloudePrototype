@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataScribeCloudePrototype.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class MigrationDB : Migration
+    public partial class MigrationDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,14 +15,14 @@ namespace DataScribeCloudePrototype.Server.Migrations
                 name: "Pptx",
                 columns: table => new
                 {
-                    PptxId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PptxUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CurrUserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pptx", x => x.PptxId);
+                    table.PrimaryKey("PK_Pptx", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -42,7 +42,7 @@ namespace DataScribeCloudePrototype.Server.Migrations
                 name: "Audio",
                 columns: table => new
                 {
-                    AudioId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UrlAidio = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CurrUserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -50,7 +50,7 @@ namespace DataScribeCloudePrototype.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Audio", x => x.AudioId);
+                    table.PrimaryKey("PK_Audio", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Audio_Users_UserId",
                         column: x => x.UserId,
@@ -62,7 +62,7 @@ namespace DataScribeCloudePrototype.Server.Migrations
                 name: "DocFiles",
                 columns: table => new
                 {
-                    DocId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DocUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CurrUserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -70,7 +70,7 @@ namespace DataScribeCloudePrototype.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DocFiles", x => x.DocId);
+                    table.PrimaryKey("PK_DocFiles", x => x.Id);
                     table.ForeignKey(
                         name: "FK_DocFiles_Users_UserId",
                         column: x => x.UserId,
@@ -82,7 +82,7 @@ namespace DataScribeCloudePrototype.Server.Migrations
                 name: "Images",
                 columns: table => new
                 {
-                    ImageId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UrlImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CurrUserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -90,7 +90,7 @@ namespace DataScribeCloudePrototype.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Images", x => x.ImageId);
+                    table.PrimaryKey("PK_Images", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Images_Users_UserId",
                         column: x => x.UserId,
@@ -123,7 +123,7 @@ namespace DataScribeCloudePrototype.Server.Migrations
                 name: "Pdf",
                 columns: table => new
                 {
-                    PDFId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PDFUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CurrUserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -131,7 +131,7 @@ namespace DataScribeCloudePrototype.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pdf", x => x.PDFId);
+                    table.PrimaryKey("PK_Pdf", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Pdf_Users_UserId",
                         column: x => x.UserId,

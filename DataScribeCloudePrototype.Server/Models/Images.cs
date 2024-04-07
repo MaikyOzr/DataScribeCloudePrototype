@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using DataScribeCloudePrototype.Server.Repositories.Interfaces;
 
 namespace DataScribeCloudePrototype.Server.Models
 {
-    public class Images
+    public class Images : IFileEntity
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ImageId { get; set; }
+        [Key]
+        public int Id { get; set; }
         public string? UrlImage { get; set; } = string.Empty;
         [ForeignKey("User")]
         public Guid CurrUserID { get; set; }

@@ -38,7 +38,7 @@ namespace DataScribeCloudePrototype.Server.Controllers
             }
 
             await _manager.AddFile(FileType.Pptx, file);
-            var doc = await _context.Pptx.OrderByDescending(i => i.PptxId).FirstOrDefaultAsync();
+            var doc = await _context.Pptx.OrderByDescending(i => i.Id).FirstOrDefaultAsync();
             return Ok(doc);
         }
 

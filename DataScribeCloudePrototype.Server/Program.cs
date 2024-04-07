@@ -38,6 +38,7 @@ namespace DataScribeCloudePrototype.Server
 
             service.AddHttpContextAccessor();
             service.AddScoped<UserManager>();
+            service.AddScoped<FileFactory>();
             service.AddScoped<FileStorageManager>();
             service.AddResponseCaching();
             service.AddControllers(options =>

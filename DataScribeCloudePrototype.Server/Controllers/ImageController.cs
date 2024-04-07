@@ -37,7 +37,7 @@ namespace DataScribeCloudePrototype.Server.Controllers
             }
 
             await _manager.AddFile(FileType.Image, file);
-            var image = await _context.Images.OrderByDescending(i => i.ImageId).FirstOrDefaultAsync();
+            var image = await _context.Images.OrderByDescending(i => i.Id).FirstOrDefaultAsync();
             return Ok(image);
         }
 

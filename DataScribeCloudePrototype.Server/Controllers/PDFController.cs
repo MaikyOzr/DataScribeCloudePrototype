@@ -38,7 +38,7 @@ namespace DataScribeCloudePrototype.Server.Controllers
             }
 
             await _manager.AddFile(FileType.PDF, file);
-            var pdf = await _context.Pdf.OrderByDescending(i => i.PDFId).FirstOrDefaultAsync();
+            var pdf = await _context.Pdf.OrderByDescending(i => i.Id).FirstOrDefaultAsync();
             return Ok(pdf);
         }
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataScribeCloudePrototype.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240406141803_MigrationDB")]
-    partial class MigrationDB
+    [Migration("20240407160841_MigrationDb")]
+    partial class MigrationDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,11 @@ namespace DataScribeCloudePrototype.Server.Migrations
 
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.Audio", b =>
                 {
-                    b.Property<int>("AudioId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AudioId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<Guid>("CurrUserID")
                         .HasColumnType("uniqueidentifier");
@@ -43,7 +43,7 @@ namespace DataScribeCloudePrototype.Server.Migrations
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("AudioId");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
@@ -52,11 +52,11 @@ namespace DataScribeCloudePrototype.Server.Migrations
 
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.DocFiles", b =>
                 {
-                    b.Property<int>("DocId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<Guid>("CurrUserID")
                         .HasColumnType("uniqueidentifier");
@@ -68,7 +68,7 @@ namespace DataScribeCloudePrototype.Server.Migrations
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("DocId");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
@@ -77,11 +77,11 @@ namespace DataScribeCloudePrototype.Server.Migrations
 
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.Images", b =>
                 {
-                    b.Property<int>("ImageId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<Guid>("CurrUserID")
                         .HasColumnType("uniqueidentifier");
@@ -92,7 +92,7 @@ namespace DataScribeCloudePrototype.Server.Migrations
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ImageId");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
@@ -130,11 +130,11 @@ namespace DataScribeCloudePrototype.Server.Migrations
 
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.Pdf", b =>
                 {
-                    b.Property<int>("PDFId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PDFId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<Guid>("CurrUserID")
                         .HasColumnType("uniqueidentifier");
@@ -146,7 +146,7 @@ namespace DataScribeCloudePrototype.Server.Migrations
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("PDFId");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
@@ -155,11 +155,11 @@ namespace DataScribeCloudePrototype.Server.Migrations
 
             modelBuilder.Entity("DataScribeCloudePrototype.Server.Models.Pptx", b =>
                 {
-                    b.Property<int>("PptxId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PptxId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<Guid>("CurrUserID")
                         .HasColumnType("uniqueidentifier");
@@ -168,7 +168,7 @@ namespace DataScribeCloudePrototype.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("PptxId");
+                    b.HasKey("Id");
 
                     b.ToTable("Pptx");
                 });
