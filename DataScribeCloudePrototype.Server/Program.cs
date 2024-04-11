@@ -40,6 +40,7 @@ namespace DataScribeCloudePrototype.Server
             service.AddScoped<UserManager>();
             service.AddScoped<FileFactory>();
             service.AddScoped<FileStorageManager>();
+            service.AddScoped<GoogleService>();
             service.AddResponseCaching();
             service.AddControllers(options =>
             {
