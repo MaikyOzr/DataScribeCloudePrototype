@@ -1,4 +1,5 @@
 using DataScribeCloudePrototype.Server.Data;
+using DataScribeCloudePrototype.Server.Repositories;
 using DataScribeCloudePrototype.Server.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +36,8 @@ namespace DataScribeCloudePrototype.Server
                            .AllowAnyMethod();
                 });
             });
-
+            service.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
+            service.AddScoped<JWTProvider>();
             service.AddHttpContextAccessor();
             service.AddScoped<UserManager>();
             service.AddScoped<FileFactory>();
@@ -67,8 +69,8 @@ namespace DataScribeCloudePrototype.Server
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 

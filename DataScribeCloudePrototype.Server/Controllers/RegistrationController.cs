@@ -1,5 +1,6 @@
 ﻿using DataScribeCloudePrototype.Server.Data;
 using DataScribeCloudePrototype.Server.Models;
+using DataScribeCloudePrototype.Server.Repositories;
 using DataScribeCloudePrototype.Server.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,11 +14,13 @@ namespace DataScribeCloudePrototype.Server.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager _userManager;
-        
-        public RegistrationController(ApplicationDbContext context, UserManager userManager)
+        private readonly JWTProvider _jWTProvider;
+        public RegistrationController
+            (ApplicationDbContext context, UserManager userManager, JWTProvider provider)
         {
             _context = context;
             _userManager = userManager;
+            _jWTProvider = provider;
         }
         
         [HttpGet("GetUsers")]
@@ -35,25 +38,26 @@ namespace DataScribeCloudePrototype.Server.Controllers
                 Email = email,
                 Password = hashPassword
             };
+
             if (_userManager.IsEmailRegisted(user))
             {
                 return BadRequest("Mail registered!");
             }
             await _userManager.AddUser(user);
-
-            return Ok("User is successfully registered!");
+            return Ok("Register successful");
         }
 
         [HttpPost("Login")]
         public async Task<IActionResult> Login(string? email, string? password)
         {
+           
             var user = await _userManager.FindByEmail(email);
             var verifyPassword = _userManager.Verify(password, user.Password);
+            var token = _jWTProvider.GenerateToken(user);
             if (verifyPassword) {
-                return Ok("You are successfully logged in");
+                return Ok(token);
             }
-            
-            return Ok("Your email or password is not correct");
+            return BadRequest("Not registered");
         }
 
 

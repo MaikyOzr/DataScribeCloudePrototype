@@ -15,10 +15,7 @@ namespace DataScribeCloudePrototype.Server.Service
 
         public GoogleService()
         {
-            // Отримати значення секрету з GitHub Secrets під час виконання програми
             var clientSecret = Environment.GetEnvironmentVariable("CREDENTIAL");
-
-            // Створити тимчасовий файл для секретів Google Client з отриманим значенням
             ClientSecretJsonPath = Path.GetTempFileName();
             File.WriteAllText(ClientSecretJsonPath, clientSecret);
         }

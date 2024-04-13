@@ -22,7 +22,7 @@ namespace DataScribeCloudePrototype.Server.Service
         }
 
         public async Task AddUser(User user)
-        {   
+        {
             await _context.AddAsync(user);
             await _context.SaveChangesAsync();
         }
@@ -43,7 +43,9 @@ namespace DataScribeCloudePrototype.Server.Service
             BCrypt.Net.BCrypt.EnhancedVerify(password, hashPassword);
 
         public async Task<User> FindByEmail(string? email) {
-            var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(e => e.Email == email);
+            var user = await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e => e.Email == email);
             return user;
         }
     }
