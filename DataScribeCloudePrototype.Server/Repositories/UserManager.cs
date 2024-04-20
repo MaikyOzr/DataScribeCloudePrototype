@@ -17,7 +17,8 @@ namespace DataScribeCloudePrototype.Server.Service
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public bool IsEmailRegisted(User user) {
+        public bool IsEmailRegisted(User user)
+        {
             return _context.Set<User>().Any(a => a.Email == user.Email);
         }
 
@@ -27,7 +28,8 @@ namespace DataScribeCloudePrototype.Server.Service
             await _context.SaveChangesAsync();
         }
 
-        public Guid GetCurrUserId() {
+        public Guid GetCurrUserId()
+        {
             var userIdString = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (Guid.TryParse(userIdString, out Guid userId))
             {
@@ -36,13 +38,15 @@ namespace DataScribeCloudePrototype.Server.Service
             return Guid.Empty;
         }
 
-        public string HashPaswword(string password) => 
+        public string HashPaswword(string password) =>
             BCrypt.Net.BCrypt.EnhancedHashPassword(password);
 
         public bool Verify(string password, string hashPassword) =>
             BCrypt.Net.BCrypt.EnhancedVerify(password, hashPassword);
 
-        public async Task<User> FindByEmail(string? email) {
+        public async Task<User> FindByEmail(string? email)
+        {
+
             var user = await _context.Users
                 .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.Email == email);

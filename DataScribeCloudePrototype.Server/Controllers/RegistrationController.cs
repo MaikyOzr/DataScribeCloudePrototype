@@ -22,42 +22,57 @@ namespace DataScribeCloudePrototype.Server.Controllers
             _userManager = userManager;
             _jWTProvider = provider;
         }
-        
+
         [HttpGet("GetUsers")]
         public async Task<List<User>> GetUsers()
         {
             return await _context.Users.ToListAsync();
         }
-    
-        [HttpPost("Register")]
-        public async Task<IActionResult> Register(string email, string password) {
 
-            var hashPassword = _userManager.HashPaswword(password);
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody] RegisterModel register)
+        {
+
+            if (register.Password != register.ConfPassword)
+            {
+                return BadRequest(new { message = "Passwords do not match" });
+            }
+
+            var hashPassword = _userManager.HashPaswword(register.Password);
             var user = new User
             {
-                Email = email,
+                Email = register.Email,
                 Password = hashPassword
             };
 
             if (_userManager.IsEmailRegisted(user))
             {
-                return BadRequest("Mail registered!");
+                return BadRequest(new { message = "Mail registered!" });
             }
+
             await _userManager.AddUser(user);
-            return Ok("Register successful");
+            return Ok(new { message = "Register successful" });
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(string? email, string? password)
+        public async Task<IActionResult> Login([FromBody] LoginModel login)
         {
-           
-            var user = await _userManager.FindByEmail(email);
-            var verifyPassword = _userManager.Verify(password, user.Password);
+            var user = await _userManager.FindByEmail(login.Email);
+
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+
+            var verifyPassword = _userManager.Verify(login.Password, user.Password);
             var token = _jWTProvider.GenerateToken(user);
-            if (verifyPassword) {
+
+            if (verifyPassword)
+            {
                 return Ok(token);
             }
-            return BadRequest("Not registered");
+
+            return BadRequest("Incorrect password");
         }
 
 
