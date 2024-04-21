@@ -38,7 +38,7 @@ namespace DataScribeCloudePrototype.Server.Controllers
                 return BadRequest(new { message = "Passwords do not match" });
             }
 
-            var hashPassword = _userManager.HashPaswword(register.Password);
+            var hashPassword = _userManager.HashPaswword(register);
             var user = new User
             {
                 Email = register.Email,
@@ -57,19 +57,19 @@ namespace DataScribeCloudePrototype.Server.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginModel login)
         {
-            var user = await _userManager.FindByEmail(login.Email);
+            var user = await _userManager.FindByEmail(login);
 
             if (user == null)
             {
                 return BadRequest("User not found");
             }
 
-            var verifyPassword = _userManager.Verify(login.Password, user.Password);
-            var token = _jWTProvider.GenerateToken(user);
+            var verifyPassword = _userManager.Verify(login, user);
+            //var token = _jWTProvider.GenerateToken(user);
 
             if (verifyPassword)
             {
-                return Ok(token);
+                return Ok("Succes");
             }
 
             return BadRequest("Incorrect password");

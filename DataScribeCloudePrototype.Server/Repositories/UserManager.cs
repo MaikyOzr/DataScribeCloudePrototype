@@ -38,18 +38,23 @@ namespace DataScribeCloudePrototype.Server.Service
             return Guid.Empty;
         }
 
-        public string HashPaswword(string password) =>
-            BCrypt.Net.BCrypt.EnhancedHashPassword(password);
+        public string HashPaswword(RegisterModel password) =>
+            BCrypt.Net.BCrypt.EnhancedHashPassword(password.Password);
 
-        public bool Verify(string password, string hashPassword) =>
-            BCrypt.Net.BCrypt.EnhancedVerify(password, hashPassword);
+        public bool Verify(LoginModel password, User hashPassword) =>
+            BCrypt.Net.BCrypt.EnhancedVerify(password?.Password, hashPassword.Password);
 
-        public async Task<User> FindByEmail(string? email)
+        public async Task<User> FindByEmail(LoginModel login)
         {
+            if (login == null)
+            {
+                throw new ArgumentNullException(nameof(login));
+            }
 
             var user = await _context.Users
                 .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.Email == email);
+                .SingleOrDefaultAsync(e => e.Email == login.Email);
+
             return user;
         }
     }
