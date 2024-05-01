@@ -36,39 +36,62 @@ const RegistrationForm = () => {
     };
 
     return (
-        <div>
-            <h2>Registration Form</h2>
-            <form onSubmit={handleSubmit}>
-                {error && <p className="error-message">{error}</p>}
-                <div>
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(event) => setEmail(event.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Confirm Password:</label>
-                    <input
-                        type="password"
-                        value={confPassword}
-                        onChange={(event) => setConfPassword(event.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit">Register</button>
-            </form>
+        <div className="registration-form-container">
+            <div className="registration-form">
+                <h2>Create new account</h2>
+                <form onSubmit={handleSubmit} className="form-container">
+                    {error && <p className="error-message">{error}</p>}
+                    <div className="form_block">
+                        <label htmlFor="email">Email:</label>
+                        <input
+                            type="email"
+                            id="email"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                            onFocus={(event) => event.target.parentElement.classList.add('focused')}
+                            onBlur={(event) => {
+                                if (!event.target.value) {
+                                    event.target.parentElement.classList.remove('focused');
+                                }
+                            }}
+                            required
+                        />
+                    </div>
+                    <div className="form_block">
+                        <label htmlFor="password">Password:</label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
+                            onFocus={(event) => event.target.parentElement.classList.add('focused')}
+                            onBlur={(event) => {
+                                if (!event.target.value) {
+                                    event.target.parentElement.classList.remove('focused');
+                                }
+                            }}
+                            required
+                        />
+                    </div>
+                    <div className="form_block">
+                        <label htmlFor="confPassword">Confirm Password:</label>
+                        <input
+                            type="password"
+                            id="confPassword"
+                            value={confPassword}
+                            onChange={(event) => setConfPassword(event.target.value)}
+                            onFocus={(event) => event.target.parentElement.classList.add('focused')}
+                            onBlur={(event) => {
+                                if (!event.target.value) {
+                                    event.target.parentElement.classList.remove('focused');
+                                }
+                            }}
+                            required
+                        />
+                    </div>
+                    <button type="submit" className="btn-purple">Register</button>
+                </form>
+            </div>
         </div>
     );
 };

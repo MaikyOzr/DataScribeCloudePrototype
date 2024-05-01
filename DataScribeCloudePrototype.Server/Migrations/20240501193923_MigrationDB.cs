@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataScribeCloudePrototype.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class MigrationDb : Migration
+    public partial class MigrationDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

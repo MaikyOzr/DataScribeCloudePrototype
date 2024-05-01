@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataScribeCloudePrototype.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240407160841_MigrationDb")]
-    partial class MigrationDb
+    [Migration("20240501193923_MigrationDB")]
+    partial class MigrationDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

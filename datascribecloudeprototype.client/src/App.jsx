@@ -4,10 +4,10 @@ import LoginForm from './LoginForm';
 
 const App = () => {
     return (
-        <div>
+        <div className="wrapper">
             <h1>Welcome to Your App</h1>
             <RegistrationForm />
-            <LoginForm /> 
+            {/*<LoginForm /> */}
         </div>
     );
 }
