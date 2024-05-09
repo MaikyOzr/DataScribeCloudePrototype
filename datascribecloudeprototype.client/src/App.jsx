@@ -7,14 +7,14 @@ import Home from './Home';
 const App = () => {
     return (
         <div className="wrapper">
-            <h1>Welcome to Your App</h1>
+            <h1>Welcome to DataScribe</h1>
             {/* Використовуємо Switch для перемикання між маршрутами */}
             <Router> {/* Оточуємо дерево маршрутизації контекстом BrowserRouter */}
                 <Routes>
                     {/* Route для відображення компонентів на відповідних шляхах */}
                     <Route path="/register" element={<RegistrationForm />} />
-                    <Route path="/login" element={<LoginForm />} />
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<LoginForm />} />
+                    <Route path="/home" element={<Home />} />
                 </Routes>
             </Router>
         </div>

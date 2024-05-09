@@ -69,7 +69,7 @@ namespace DataScribeCloudePrototype.Server.Controllers
 
             if (verifyPassword)
             {
-                return Ok("Succes");
+                return Ok(new { message = "Succes" });
             }
 
             return BadRequest("Incorrect password");
