@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const RegistrationForm = () => {
     const [email, setEmail] = useState('');
@@ -32,7 +33,11 @@ const RegistrationForm = () => {
             console.log('Registration successful');
         } catch (error) {
             setError(error.message);
+            return;
         }
+
+        // Redirect to home page after successful registration
+        window.location.href = '/';
     };
 
     return (
