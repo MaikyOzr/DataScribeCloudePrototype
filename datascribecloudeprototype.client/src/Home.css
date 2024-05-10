@@ -1,0 +1,111 @@
+/* Sidebar Menu CSS */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 60px; /* Початкова ширина сайдбара */
+    height: 100vh;
+    background-color: #333; /* Колір фону */
+    padding-top: 50px; /* Відступ зверху */
+    transition: width 0.3s ease; /* Анімація при зміні ширини */
+    z-index: 1000;
+    overflow: hidden; /* Ховає зайві елементи, якщо сайдбар скорочений */
+}
+
+    /* Показати сайдбар при наведенні */
+    .sidebar:hover {
+        width: 250px; /* Розширення сайдбара при наведенні */
+    }
+
+    .sidebar .logo-details {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0 20px;
+        color: #fff; /* Колір тексту */
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .sidebar .nav-links {
+        margin-top: 20px;
+    }
+
+        .sidebar .nav-links li {
+            position: relative;
+            list-style: none;
+        }
+
+            .sidebar .nav-links li a {
+                display: block;
+                padding: 10px 20px;
+                color: #fff; /* Колір тексту */
+                text-decoration: none;
+                transition: all 0.3s ease;
+            }
+
+                .sidebar .nav-links li a:hover {
+                    background-color: #555; /* Колір при наведенні */
+                }
+
+            .sidebar .nav-links li ul {
+                padding-left: 20px;
+            }
+
+                .sidebar .nav-links li ul li {
+                    padding: 8px 0;
+                }
+
+                    .sidebar .nav-links li ul li a {
+                        font-size: 14px;
+                    }
+
+    /* Змініть зображення та іконки за потреби */
+    .sidebar .logo-details i {
+        font-size: 30px;
+        margin-right: 10px;
+    }
+
+    .sidebar .nav-links li a i {
+        margin-right: 10px;
+    }
+
+    /* Пункти меню */
+    .sidebar .nav-links li.personal a:before {
+        background-image: url('assets/icons/user.png');
+        background-size: contain; /* Забезпечте масштабування іконки відповідно до розміру блока */
+        background-repeat: no-repeat; /* Щоб уникнути повторення фонового зображення */
+        display: inline-block; /* Встановлення блочного відображення, щоб фонове зображення відображалося */
+        width: 20px; /* Ширина блока іконки */
+        height: 20px; /* Висота блока іконки */
+        content: ''; /* Виключення вмісту контенту, оскільки ми використовуємо фонове зображення */
+        margin-right: 5px; /* Поліпшення відступу між іконкою та текстом */
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+    }
+
+    .sidebar .nav-links li.uploaded a:before {
+        background-image: url('assets/icons/document.png');
+        background-size: contain; /* Забезпечте масштабування іконки відповідно до розміру блока */
+        background-repeat: no-repeat; /* Щоб уникнути повторення фонового зображення */
+        display: inline-block; /* Встановлення блочного відображення, щоб фонове зображення відображалося */
+        width: 20px; /* Ширина блока іконки */
+        height: 20px; /* Висота блока іконки */
+        content: ''; /* Виключення вмісту контенту, оскільки ми використовуємо фонове зображення */
+        margin-right: 5px; /* Поліпшення відступу між іконкою та текстом */
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+    }
+
+    .sidebar .nav-links li.notes a:before {
+        background-image: url('assets/icons/notes.png');
+        background-size: contain; /* Забезпечте масштабування іконки відповідно до розміру блока */
+        background-repeat: no-repeat; /* Щоб уникнути повторення фонового зображення */
+        display: inline-block; /* Встановлення блочного відображення, щоб фонове зображення відображалося */
+        width: 20px; /* Ширина блока іконки */
+        height: 20px; /* Висота блока іконки */
+        content: ''; /* Виключення вмісту контенту, оскільки ми використовуємо фонове зображення */
+        margin-right: 5px; /* Поліпшення відступу між іконкою та текстом */
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+    }

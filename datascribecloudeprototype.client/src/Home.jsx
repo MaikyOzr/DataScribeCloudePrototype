@@ -1,11 +1,44 @@
 import React from 'react';
+import './Home.css';
 
 const Home = () => {
     return (
-        <div>
-            <h2>Home Page</h2>
-            {/* Додайте інші елементи або контент для вашої головної сторінки */}
-        </div>
+        <>
+            <div className="sidebar close">
+                <div className="logo-details">
+                    <i className='bx bxl-c-plus-plus'></i>
+                    <span className="logo_name">DataScribe</span>
+                </div>
+                <ul className="nav-links">
+                    <li className="personal">
+                        <a href="#">
+                            <i className='bx bx-user'></i>
+                            <span className="link_name">My Acc</span>
+                        </a>
+                    </li>
+                    <li className="uploaded">
+                        <a href="#">
+                            <i className='bx bx-cloud-upload'></i>
+                            <span className="link_name">Files</span>
+                        </a>
+                    </li>
+                    <li className="notes">
+                        <a href="#">
+                            <i className='bx bx-note'></i>
+                            <span className="link_name">Notes</span>
+                        </a>
+                    </li>
+                    {/* Додайте інші пункти меню тут */}
+                </ul>
+            </div>
+            <section className="home-section">
+                <div className="home-content">
+                    <i className='bx bx-menu'></i>
+                    <span className="text">Drop Down Sidebar</span>
+                </div>
+            </section>
+            <div className="one"></div>
+        </>
     );
 }
 
