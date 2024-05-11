@@ -37,7 +37,7 @@ const RegistrationForm = () => {
         }
 
         // Redirect to home page after successful registration
-        window.location.href = '/';
+        window.location.href = '/home';
     };
 
     return (

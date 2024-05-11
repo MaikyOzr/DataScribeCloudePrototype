@@ -29,6 +29,22 @@ namespace DataScribeCloudePrototype.Server.Controllers
             return await _context.Users.ToListAsync();
         }
 
+        [HttpGet("GetUser")]
+        public async Task<ActionResult<User>> GetUser(RegisterModel reg)
+        {
+            var user = await _context.Users
+                .AsNoTracking()
+                .SingleOrDefaultAsync(c => c.Email == reg.Email);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            return Ok(new { email = reg.Email });
+        }
+
+
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel register)
         {

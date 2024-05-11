@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Home.css';
 
 const Home = () => {
     return (
         <>
+            Home page
             <div className="sidebar close">
                 <div className="logo-details">
                     <i className='bx bxl-c-plus-plus'></i>
@@ -11,16 +13,16 @@ const Home = () => {
                 </div>
                 <ul className="nav-links">
                     <li className="personal">
-                        <a href="#">
+                        <Link to="/myacc" className="nav-link">
                             <i className='bx bx-user'></i>
                             <span className="link_name">My Acc</span>
-                        </a>
+                        </Link>
                     </li>
                     <li className="uploaded">
-                        <a href="#">
+                        <Link to="/file" className="nav-link">
                             <i className='bx bx-cloud-upload'></i>
                             <span className="link_name">Files</span>
-                        </a>
+                        </Link>
                     </li>
                     <li className="notes">
                         <a href="#">
