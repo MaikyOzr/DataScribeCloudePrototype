@@ -18,11 +18,11 @@ const LoginForm = () => {
                 body: JSON.stringify({ email: email, password: password }),
             });
 
-            const data = await response.json();
-
+            const responseText = await response.text();
             if (!response.ok) {
-                throw new Error(data.message || 'Login failed');
+                throw new Error(responseText || 'Login failed');
             }
+            const data = JSON.parse(responseText);
 
             console.log('Login successful');
             // Redirect to home page after successful login

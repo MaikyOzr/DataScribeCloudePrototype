@@ -24,11 +24,11 @@ const RegistrationForm = () => {
                 body: JSON.stringify({ email: email, password: password, confPassword: confPassword }),
             });
 
-            const data = await response.json();
-
+            const responseText = await response.text();
             if (!response.ok) {
-                throw new Error(data.message || 'Registration failed');
+                throw new Error(responseText || 'Registration failed');
             }
+            const data = JSON.parse(responseText);
 
             console.log('Registration successful');
         } catch (error) {
